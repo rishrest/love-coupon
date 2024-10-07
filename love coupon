@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ff6b6b, #ff8787);
+            padding: 20px;
+        }
+        .coupon {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 350px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .hidden {
+            display: none;
+        }
+        button {
+            background: linear-gradient(135deg, #ff6b6b, #ff8787);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+        }
+        h1 {
+            font-weight: 700;
+            font-size: 28px;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #ff6b6b, #ff8787);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        h2 {
+            font-weight: 600;
+            font-size: 24px;
+            margin: 10px 0;
+            color: #ff6b6b;
+        }
+        .emoji-container {
+            font-size: 32px;
+            margin: 15px 0;
+        }
+        .bodybuilder {
+            font-size: 40px;
+            animation: flex 2s infinite;
+            display: inline-block;
+        }
+        @keyframes flex {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+        }
+        .meat {
+            font-size: 28px;
+            opacity: 0;
+            margin: 0 5px;
+        }
+        .meat-animation {
+            animation: dropMeat 1s forwards;
+        }
+        @keyframes dropMeat {
+            0% { transform: translateY(-20px) rotate(-45deg); opacity: 0; }
+            100% { transform: translateY(0) rotate(0deg); opacity: 1; }
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            animation: confetti 1s forwards;
+        }
+        @keyframes confetti {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
+        p {
+            font-size: 18px;
+            margin: 10px 0;
+            color: #444;
+        }
+        .highlight {
+            background: linear-gradient(120deg, rgba(255, 107, 107, 0.2) 0%, rgba(255, 107, 107, 0.2) 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 40%;
+            background-position: 0 90%;
+            padding: 0 5px;
+        }
+        #meat-container {
+            margin: 20px 0;
+            min-height: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="coupon">
+        <div id="unopened">
+            <h1>Achievement Coupon</h1>
+            <div class="emoji-container">
+                <span class="bodybuilder">💪</span>
+            </div>
+            <p>For crushing your <span class="highlight">first bodybuilding show</span></p>
+            <button onclick="redeemCoupon()">Claim Your Reward</button>
+        </div>
+        <div id="opened" class="hidden">
+            <h1>You Did It! 🏆</h1>
+            <div class="emoji-container">
+                <span class="bodybuilder">💪</span>
+            </div>
+            <p>To celebrate your amazing performance</p>
+            <h2>You've Earned</h2>
+            <h2>Korean BBQ</h2>
+            <p>at</p>
+            <h2>Don Blanc</h2>
+            <div id="meat-container"></div>
+            <p style="font-size: 14px; margin-top: 20px;">Time to enjoy the gains!</p>
+        </div>
+    </div>
+
+    <script>
+        function redeemCoupon() {
+            document.getElementById('unopened').classList.add('hidden');
+            document.getElementById('opened').classList.remove('hidden');
+            createConfetti();
+            animateKBBQ();
+        }
+
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#ff8787', '#ffa8a8', '#ffd4d4'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 1000);
+            }
+        }
+
+        function animateKBBQ() {
+            const meatContainer = document.getElementById('meat-container');
+            const meatEmojis = ['🥩', '🍖', '🥓', '🍗'];
+            meatEmojis.forEach((emoji, index) => {
+                setTimeout(() => {
+                    const meatSpan = document.createElement('span');
+                    meatSpan.className = 'meat meat-animation';
+                    meatSpan.textContent = emoji;
+                    meatContainer.appendChild(meatSpan);
+                }, index * 200);
+            });
+        }
+    </script>
+</body>
+</html>
